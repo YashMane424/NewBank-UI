@@ -50,12 +50,12 @@ jobs:
 
       - name: Install frontend dependencies
         run: npm install
-        working-directory: frontend   # 👈 adjust if needed
+        working-directory: /src   # 👈 adjust if needed
 
       - name: Run frontend tests
         run: npm test -- --watch=false
-        working-directory: frontend
+        working-directory: /src
 
       - name: Build frontend
         run: npm run build
-        working-directory: frontend
+        working-directory: /src
