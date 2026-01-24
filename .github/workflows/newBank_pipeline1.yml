@@ -7,6 +7,7 @@ on:
     branches: [main]
 
 jobs:
+
   # backend:
   #   name: Build Spring Boot Backend
   #   runs-on: ubuntu-latest
@@ -40,6 +41,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Debug runner paths
+        run: |
+            pwd
+            ls -la
 
       # - name: Set up Node.js
       #   uses: actions/setup-node@v4
