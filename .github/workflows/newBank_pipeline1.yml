@@ -41,6 +41,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+        
       - name: Debug runner paths
         run: |
             pwd
@@ -55,8 +57,8 @@ jobs:
 
       - name: Install frontend dependencies
         run: npm install
-        
 
+        
       - name: Run frontend tests
         run: npm test -- --watch=false
         
