@@ -57,12 +57,13 @@ frontend/
 ## Tech Stack
 
 - **React 18** - UI framework
-- **Vite** - Build tool (faster than Create React App)
-- **Tailwind CSS** - Utility-first CSS framework
+- **Vite** - Build tool
+- **Tailwind CSS** 
 - **PostCSS** - CSS transformation
 
 ## Notes
 
 - Tailwind CSS is configured for `src/**/*.{js,jsx}` files
 - API proxy is set to backend at `http://localhost:8080`
+- To run backend refer repository NewBank in my profile.
 - Make sure your Spring Boot backend is running on port 8080
