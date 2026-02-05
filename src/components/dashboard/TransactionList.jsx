@@ -3,8 +3,15 @@ import { useSelector } from 'react-redux';
 import { MdTrendingUp, MdTrendingDown, MdSend, MdRefresh } from 'react-icons/md';
 import { formatCurrency, formatDate, getTransactionColor, getTransactionSign } from '../../utils/formatters';
 
+const EMPTY_ARRAY = [];
 const TransactionList = () => {
-  const { transactions, loading } = useSelector((state) => state.transactions);
+  const { transactions, loading } = useSelector((state) => {
+    const transactions = state.transactions?.transactions;
+    return {
+      transactions: transactions !== undefined ? transactions : EMPTY_ARRAY,
+      loading: state.transactions?.loading || false,
+    };
+  });
 
   const getIcon = (type) => {
     switch (type) {

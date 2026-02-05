@@ -9,9 +9,13 @@ import AccountCard from './AccountCard';
 import TransactionList from './TransactionList';
 import LoadingSpinner from '../common/LoadingSpinner';
 
+const EMPTY_ARRAY = [];
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { accounts, selectedAccount, loading } = useSelector((state) => state.accounts);
+  const { accounts, selectedAccount, loading } = useSelector((state) => { 
+    const accs = state.accounts?.accounts;
+  return accs !== undefined ? accs : EMPTY_ARRAY;
+});
 
   useEffect(() => {
     dispatch(fetchAccounts());
@@ -41,7 +45,7 @@ const Dashboard = () => {
         {/* Account Cards */}
         <Grid item xs={12} md={6}>
           <Box className="space-y-4">
-            {accounts.map((account) => (
+            {(accounts || []).map((account) => (
               <AccountCard key={account.accountId} account={account} />
             ))}
           </Box>

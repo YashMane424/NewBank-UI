@@ -1,9 +1,11 @@
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { MdAccountBalanceWallet } from 'react-icons/md';
 import { formatCurrency } from '../../utils/formatters';
+import { useSelector } from 'react-redux'; 
 
-const TotalBalanceCard = ({ accounts }) => {
-  const totalBalance = accounts.reduce((sum, acc) => sum + parseFloat(acc.balance), 0);
+const TotalBalanceCard = () => {
+  const accounts = useSelector((state) => state.accounts?.accounts || []);
+  const totalBalance = (accounts || []).reduce((sum, acc) => sum + parseFloat(acc?.balance), 0);
 
   return (
     <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-hover">

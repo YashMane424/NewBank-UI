@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
+import ErrorBoundary from './ErrorBoundary';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Toaster } from 'react-hot-toast';
@@ -11,6 +12,7 @@ import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <ErrorBoundary>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -42,5 +44,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         />
       </ThemeProvider>
     </Provider>
+    </ErrorBoundary>
   </React.StrictMode>
 );

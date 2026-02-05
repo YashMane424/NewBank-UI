@@ -50,7 +50,7 @@ const accountSlice = createSlice({
             .addCase(fetchAccounts.fulfilled, (state, action) => {
                 state.loading = false;
                 state.accounts = action.payload;
-            })``
+            })
             .addCase(fetchAccounts.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
