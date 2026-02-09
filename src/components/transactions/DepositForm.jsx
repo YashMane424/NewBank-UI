@@ -25,8 +25,8 @@ import { formatCurrency } from '../../utils/formatters';
 const DepositForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { accounts } = useSelector((state) => state.accounts);
-  const { loading } = useSelector((state) => state.transactions);
+  const { account } = useSelector((state) => state.account);
+  const { loading } = useSelector((state) => state.transaction);
 
   const [formData, setFormData] = useState({
     accountNumber: '',
@@ -34,18 +34,18 @@ const DepositForm = () => {
     description: '',
   });
 
-  useEffect(() => {
+  useEffect(() => {         
     dispatch(fetchAccounts());
-  }, [dispatch]);
+  }, [dispatch]);   
 
   useEffect(() => {
-    if (accounts.length > 0 && !formData.accountNumber) {
+    if (account?.length > 0 && !formData.accountNumber) {
       setFormData((prev) => ({
         ...prev,
-        accountNumber: accounts[0].accountNumber,
+        accountNumber: account[0].accountNumber,
       }));
     }
-  }, [accounts, formData.accountNumber]);
+  }, [account, formData.accountNumber]);
 
   const handleChange = (e) => {
     setFormData({
@@ -68,7 +68,7 @@ const DepositForm = () => {
     }
 
     if (parseFloat(formData.amount) > 100000) {
-      toast.error('Maximum deposit amount is $100,000');
+      toast.error('Maximum deposit amount is $100000');
       return;
     }
 
@@ -80,7 +80,7 @@ const DepositForm = () => {
 
     try {
       await dispatch(deposit(depositData)).unwrap();
-      toast.success('Deposit successful!');
+      toast.success('Deposit submission successful!');
       await dispatch(fetchAccounts());
       navigate('/dashboard');
     } catch (error) {
@@ -88,7 +88,7 @@ const DepositForm = () => {
     }
   };
 
-  const selectedAccount = accounts.find(
+  const selectedAccount = account?.find(
     (acc) => acc.accountNumber === formData.accountNumber
   );
 
@@ -155,7 +155,7 @@ const DepositForm = () => {
                   ),
                 }}
               >
-                {accounts.map((account) => (
+                {account?.map((account) => (
                   <MenuItem key={account.accountId} value={account.accountNumber}>
                     <Box className="flex justify-between w-full">
                       <span>

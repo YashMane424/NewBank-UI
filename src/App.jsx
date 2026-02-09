@@ -10,8 +10,8 @@ import RegisterForm from './components/auth/registerform';
 import Dashboard from './components/dashboard/Dashboard';
 
 
-// import DepositForm from './components/transactions/DepositForm';
-// import WithdrawForm from './components/transactions/WithdrawForm';
+ import DepositForm from './components/transactions/DepositForm';
+ import WithdrawForm from './components/transactions/WithdrawForm';
 // import TransferForm from './components/transactions/TransferForm';
 
 
@@ -52,10 +52,10 @@ function App() {
         >
           <Route index element={<Navigate to="/dashboard" />} />
           <Route path="dashboard" element={<Dashboard />} />
-          {/* <Route path="deposit" element={<DepositForm />} />
-          <Route path="withdraw" element={<WithdrawForm />} />
-          <Route path="transfer" element={<TransferForm />} />
-          <Route path="create-account" element={<CreateAccountForm />} /> */}
+          { <><Route path="deposit" element={<DepositForm />} />
+          <Route path="withdraw" element={<WithdrawForm />} /></>
+          /*<Route path="transfer" element={<TransferForm />} />
+          <Route path="create-account" element={<CreateAccountForm />} />*/ }
         </Route>
 
         {/* Fallback */}
