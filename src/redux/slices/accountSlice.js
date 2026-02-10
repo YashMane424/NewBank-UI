@@ -5,8 +5,8 @@ export const fetchAccounts = createAsyncThunk(
     "account/fetchAccounts",
     async (_, {rejectWithValue}) => {
         try {
-            const response = await axiosInstance.get("/accounts");
-            return response.data; 
+            const response = await axiosInstance?.get("/accounts");
+            return response?.data; 
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Failed to fetch accounts");
         }   
