@@ -18,7 +18,7 @@ export const deposit = createAsyncThunk(
   'transactions/deposit',
   async (depositData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post('/transactions/deposit', depositData);
+      const response = await axiosInstance.post('/accounts/deposit', depositData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Deposit failed');
@@ -30,7 +30,7 @@ export const withdraw = createAsyncThunk(
   'transactions/withdraw',
   async (withdrawData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post('/transactions/withdraw', withdrawData);
+      const response = await axiosInstance.post('/accounts/withdraw', withdrawData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Withdrawal failed');
@@ -42,7 +42,7 @@ export const transfer = createAsyncThunk(
   'transactions/transfer',
   async (transferData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post('/transactions/transfer', transferData);
+      const response = await axiosInstance.post('/accounts/transfer', transferData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Transfer failed');

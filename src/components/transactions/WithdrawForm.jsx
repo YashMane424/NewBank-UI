@@ -49,13 +49,15 @@ const withdrawForm =() => {
         }
     }, [account, formData.accountNumber]);
 
-    const handleChange = (e) =>({
+    const handleChange = (e) => {
+        setFormData({
         ...formData,
         [e.target.name]: e.target.value,
     });
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefaul();
+        e.preventDefault();
         if (!formData.accountNumber || !formData.amount) {
             toast.error('Please fill in all required fields');
             return;

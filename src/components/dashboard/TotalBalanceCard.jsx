@@ -4,7 +4,7 @@ import { formatCurrency } from '../../utils/formatters';
 import { useSelector } from 'react-redux'; 
 
 const TotalBalanceCard = () => {
-  const accounts = useSelector((state) => state.accounts?.accounts || []);
+  const accounts = useSelector((state) => state.account?.accounts || []);
   const totalBalance = (accounts || []).reduce((sum, acc) => sum + parseFloat(acc?.balance), 0);
 
   return (

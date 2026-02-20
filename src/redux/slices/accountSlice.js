@@ -18,7 +18,7 @@ export const createAccount = createAsyncThunk(
     async (accountData, {rejectWithValue}) => {
         try {
             const response = await axiosInstance.post("/accounts/create", accountData);
-            return response.data; 
+            return response?.data; 
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Failed to create account");
         }

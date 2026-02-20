@@ -6,7 +6,7 @@ import { formatCurrency, formatAccountNumber } from '../../utils/formatters';
 
 const AccountCard = ({ account }) => {
   const dispatch = useDispatch();
-  const { selectedAccount } = useSelector((state) => state.accounts);
+  const { selectedAccount } = useSelector((state) => state.account);
   const isSelected = selectedAccount?.accountId === account.accountId;
 
   return (

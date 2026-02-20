@@ -9,13 +9,14 @@ import AccountCard from './AccountCard';
 import TransactionList from './TransactionList';
 import LoadingSpinner from '../common/LoadingSpinner';
 
-const EMPTY_ARRAY = [];
+
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { accounts, selectedAccount, loading } = useSelector((state) => { 
-    const accs = state.accounts?.accounts;
-  return accs !== undefined ? accs : EMPTY_ARRAY;
-});
+  const { accounts, selectedAccount, loading } = useSelector((state) => ({
+    accounts: state.account?.accounts || [],
+    selectedAccount: state.account?.selectedAccount,
+    loading: state.account?.loading || false,
+}));
 
   useEffect(() => {
     dispatch(fetchAccounts());
