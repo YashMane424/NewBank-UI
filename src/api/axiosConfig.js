@@ -33,10 +33,18 @@ axiosApi.interceptors.response.use(
     (response) => {
         return response;
     },
-    (error) => {
-        if (error.response && error.response.status === 401) {
-            const rmtoken = localStorage.removeItem('token');
-            console.log('Unauthorized! Token removed:', rmtoken);
+    async (error) => {
+        if (error.response && error.response?.status === 401) {
+            const refreshtoken = localStorage.getItem('token');
+            console.log('Unauthorized! Token removed:', refreshtoken);
+
+            const { data } = await axios.get("/api/auth/refresh", refreshtoken )
+
+            localStorage.setItem("accessToken", data.accessToken);
+
+            error.config.headers["Authorization"] = `Bearer ${data.accessToken}`;
+            return axios(error.config);
+
         }
         return Promise.reject(error);
     }
