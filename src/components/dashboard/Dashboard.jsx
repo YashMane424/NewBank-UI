@@ -10,6 +10,7 @@ import TransactionList from './TransactionList';
 import LoadingSpinner from '../common/LoadingSpinner';
 
 
+
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { accounts, selectedAccount, loading } = useSelector((state) => ({
@@ -18,9 +19,10 @@ const Dashboard = () => {
     loading: state.account?.loading || false,
 }));
 
+  const token = useSelector((state) => state.auth.token);
   useEffect(() => {
     dispatch(fetchAccounts());
-  }, [dispatch]);
+  }, [dispatch, token]);
 
   useEffect(() => {
     if (selectedAccount) {

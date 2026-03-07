@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import accountReducer from './slices/accountSlice';
 import transactionReducer from './slices/transactionSlice';
+import { setTokenGetter } from '../api/axiosConfig';
 
 const store = configureStore({
   reducer: {
@@ -15,5 +16,7 @@ const store = configureStore({
     });
   }
 });
+
+setTokenGetter(() => store.getState().auth.token);
 
 export default store;

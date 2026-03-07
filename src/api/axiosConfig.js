@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 
+
 const axiosApi = axios.create({
     baseURL:'http://localhost:8080/api',
     headers: {
@@ -10,10 +11,16 @@ const axiosApi = axios.create({
     },
 
 });
+let getToken = () => localStorage.getItem('token');
+
+// ✅ This is called from store.js after store is created
+export const setTokenGetter = (getter) => {
+    getToken = getter;
+};
 
 axiosApi.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token');
+        const token = getToken();
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }

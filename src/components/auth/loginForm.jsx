@@ -141,7 +141,7 @@ const LoginForm = () => {
               </Button>
             </form>
 
-            ////Register link
+            {/*Register link*/}
             <Box className="text-center mt-6">
               <Typography variant="body2" color="textSecondary">
                 Don't have an account?{' '}

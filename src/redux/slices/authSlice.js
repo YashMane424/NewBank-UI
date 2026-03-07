@@ -7,7 +7,7 @@ export const login = createAsyncThunk(
         try {
             const response = await axiosInstance.post("/auth/login", credentials);
             localStorage.setItem("token", response.data.token);
-            return response.data;      ////actions.payload
+            return response.data;      
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Login failed");
         }
@@ -18,7 +18,7 @@ export const register = createAsyncThunk(
   'auth/register',
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post('/auth/register', userData);
+      const response = await axiosInstance.post('/auth/signup', userData);
       localStorage.setItem('token', response.data.token);
       return response.data;
     } catch (error) {
@@ -55,7 +55,11 @@ const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.loading = false;
-                state.user = action.payload.user;
+                state.user = {
+                            id: action.payload.id,
+                            username: action.payload.username,
+                            roles: action.payload.roles,
+                        };
                 state.token = action.payload.token;
                 state.isAuthenticated = true;
             })
@@ -69,7 +73,11 @@ const authSlice = createSlice({
             })
             .addCase(register.fulfilled, (state, action) => {
                 state.loading = false;
-                state.user = action.payload.user;
+                state.user = {
+                            id: action.payload.id,
+                            username: action.payload.username,
+                            roles: action.payload.roles,
+                        };
                 state.token = action.payload.token;
                 state.isAuthenticated = true;
             })

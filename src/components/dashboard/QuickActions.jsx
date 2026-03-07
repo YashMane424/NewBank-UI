@@ -30,7 +30,7 @@ const QuickActions = () => {
       path: '/withdraw',
     },
     {
-      title: 'Transfer',
+      title: 'Self A/c Transfer',
       icon: MdSend,
       color: 'from-purple-500 to-purple-600',
       path: '/transfer',
