@@ -1,6 +1,18 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axiosInstance from "../../api/axiosConfig";
 
+export const fetchDashboard = createAsyncThunk(
+    "account/fetchDashboard",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get("/accounts/dashboard");
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Failed to load dashboard");
+        }
+    }
+);
+
 export const fetchAccounts = createAsyncThunk(
     "account/fetchAccounts",
     async (_, {rejectWithValue}) => {
@@ -30,6 +42,7 @@ const accountSlice = createSlice({
     initialState: {
         accounts: [],
         selectedAccount: null,
+        recentTransactions: [],
         loading: false,
         error: null,
     },
@@ -77,6 +90,19 @@ const accountSlice = createSlice({
                 state.accounts.push(action.payload);    ////As this is a new account, we push it to the existing accounts array
             })
             .addCase(createAccount.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchDashboard.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchDashboard.fulfilled, (state, action) => {
+                state.loading = false;
+                state.accounts = action.payload.accounts;
+                state.recentTransactions = action.payload.recentTransactions;
+            })
+            .addCase(fetchDashboard.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });

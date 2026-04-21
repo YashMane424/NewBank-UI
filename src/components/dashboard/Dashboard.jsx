@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Grid, Box } from '@mui/material';
-import { fetchAccounts } from '../../redux/slices/accountSlice';
+import { fetchAccounts, fetchDashboard  } from '../../redux/slices/accountSlice';
 import { fetchTransactions } from '../../redux/slices/transactionSlice';
 import TotalBalanceCard from './TotalBalanceCard';
 import QuickActions from './QuickActions';
@@ -26,10 +26,10 @@ const Dashboard = () => {
   }, [dispatch, token, location.key]);
 
   useEffect(() => {
-    if (selectedAccount) {
-      dispatch(fetchTransactions(selectedAccount.accountNumber));
-    }
-  }, [selectedAccount, dispatch]);
+    dispatch(fetchDashboard());
+ }, [dispatch, location.key]);
+
+
 
   if (loading) return <LoadingSpinner />;
 

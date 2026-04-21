@@ -6,7 +6,7 @@ import { formatCurrency, formatDate, getTransactionColor, getTransactionSign } f
 const EMPTY_ARRAY = [];
 const TransactionList = () => {
     const transactions = useSelector(
-      (state) => state.transaction?.transactions || []
+      (state) => state.transaction?.recentTransactions || []
     );
     const loading = useSelector(
       (state) => state.transaction?.loading || false
