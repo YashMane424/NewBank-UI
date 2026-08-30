@@ -2,6 +2,9 @@
 
 import axios from 'axios';
 
+const MAX_QUEUE_SIZE = 100; // For memory exhaustion(Out of Memory OOM)
+const BATCH_SIZE = 10;       // If there are too much retries, just retry small packets
+const BATCH_DELAY_MS = 50;   // Delay to avoid server overload
 
 const axiosApi = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL || '/api' || 'http://localhost:8080/api',
@@ -33,14 +36,26 @@ axiosApi.interceptors.request.use(
 let isRefreshing = false;      
 let failedQueue = [];         
 
-const processQueue = (error, token = null) => {
-    failedQueue.forEach(promise => {
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const processQueue = async(error, token = null) => {
+    const queueToProcess = [...failedQueue];
+    failedQueue = []
+
+    for (let i = 0; i < queueToProcess.length; i += BATCH_SIZE) {
+    const batch = queueToProcess.slice(i, i + BATCH_SIZE);
+        
+    batch.forEach((promise) => {
         if (error) {
             promise.reject(error);
         } else {
             promise.resolve(token);
         }
-    });    failedQueue = [];
+    }); 
+    if(i + BATCH_SIZE < queueToProcess.length) {
+      await delay(BATCH_DELAY_MS);
+    }
+  }
 };
 
 axiosApi.interceptors.response.use(
@@ -62,6 +77,10 @@ axiosApi.interceptors.response.use(
             }
 
             if (isRefreshing) {
+                // Reject incoming requests if the retry queue is full
+                if (failedQueue.length >= MAX_QUEUE_SIZE) {
+                  return Promise.reject(new Error('Too many pending requests during token refresh.'));
+                }
                 return new Promise((resolve, reject) => {
                     failedQueue.push({ resolve, reject });
                 }).then(token => {
@@ -74,14 +93,14 @@ axiosApi.interceptors.response.use(
             isRefreshing = true;
 
             try {
+                const refreshUrl = `${axiosApi.defaults.baseURL}/auth/refresh`;
                 const { data } = await axios.post(
-                    'http://localhost:8080/api/auth/refresh',
+                    refreshUrl,
                     { refreshToken },
                     { headers: { 'Content-Type': 'application/json', } }
                 );
 
                 const newToken = data.token;
-
                 localStorage.setItem('token', newToken);
 
                 axiosApi.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
